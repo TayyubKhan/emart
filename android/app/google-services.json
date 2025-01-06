@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "779149964907",
+    "project_id": "cashback-e555b",
+    "storage_bucket": "cashback-e555b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779149964907:android:5e8b2b824ebc70c92d232e",
+        "android_client_info": {
+          "package_name": "com.csrwpt.cashback"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkOELnB-wGSKSOrwb_Z_zusBQAx2orNeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
