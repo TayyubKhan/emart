@@ -246,7 +246,14 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                       builder:
                           (BuildContext context, WidgetRef ref, Widget? child) {
                         final paymentMethod = ref.watch(paymentGateWayProvider);
-                        return Text(
+                        return
+                          paymentMethod=='Razorpay'? Image.asset(
+                            'Assets/payicon.png',
+                            width: 50,
+                          ):const Icon(Icons.payment);
+
+
+                          Text(
                           paymentMethod,
                           style: const TextStyle(color: Colors.red),
                         );

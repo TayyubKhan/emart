@@ -43,8 +43,23 @@ class ProductCard extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CachedNetworkImage(
-                imageUrl: product['image'], height: 100, fit: BoxFit.cover),
+            Stack(
+              alignment: Alignment.topLeft,
+              children: [
+                CachedNetworkImage(
+                    imageUrl: product['image'], height: 100, fit: BoxFit.cover),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.redAccent),
+                  padding: const EdgeInsets.all(4),
+                  child: const Text(
+                    '\t70 % Discount',
+                    style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 8),
             Text(
               product['title'],
@@ -58,10 +73,6 @@ class ProductCard extends ConsumerWidget {
                 Text(
                   '₹ ${product['price']}000',
                   style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  '\t70 % Discount',
-                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
             ),

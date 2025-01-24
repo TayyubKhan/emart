@@ -29,7 +29,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +44,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +135,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                       ),
                       onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
+                        if (formKey.currentState?.validate() ?? false) {
                           ref.read(userProvider.notifier).state = UserModel(
                               name: nameController.text,
                               email: emailController.text,
