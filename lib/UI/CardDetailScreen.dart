@@ -361,7 +361,7 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                               inputFormater: _inputFormatters,
                               showError: showError,
                               controller: _expiryExpiryController,
-                              labelText: 'Enter date* ',
+                              labelText: 'Enter Expiry date* ',
                               hintText: 'MM/YY',
                               keyboardType: TextInputType.number,
                               icon: showError5

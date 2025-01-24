@@ -1,3 +1,4 @@
+import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,77 +28,100 @@ class ProductCard extends ConsumerWidget {
 
     final isInCart = cartItemCount > 0;
 
-    return GestureDetector(
-      onTap: () {
-        ref.read(selectionProvider.notifier).toggleSelection(index);
-      },
-      child: Container(
-        width: 200,
-        margin: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isInCart ? Colors.black : Colors.grey.withOpacity(0.2),
+    // Calculate original price and discounted price
+    final double originalPrice = (product['price'] as num).toDouble() * 1000.0;
+    final double discountedPrice = originalPrice * 0.3;
+
+    return Stack(
+      alignment: Alignment.topRight,
+      children: [
+        Container(
+          width: 200,
+          margin: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: isInCart ? Colors.black : Colors.grey.withOpacity(0.2),
+            ),
+            borderRadius: BorderRadius.circular(10),
           ),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.topLeft,
-              children: [
-                CachedNetworkImage(
-                    imageUrl: product['image'], height: 100, fit: BoxFit.cover),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.redAccent),
-                  padding: const EdgeInsets.all(4),
-                  child: const Text(
-                    '\t70 % Discount',
-                    style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              product['title'],
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Column(
-              children: [
-                Text(
-                  '₹ ${product['price']}000',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            if (cartItemCount > 0) // Show count only if the item is in the cart
-              Text('In cart: $cartItemCount'),
-            const SizedBox(height: 8),
-            // Toggle Button
-            ElevatedButton(
-              onPressed: () {
-                if (isInCart) {
-                  ref.read(cartProvider.notifier).removeFromCart(product);
-                } else {
-                  ref.read(cartProvider.notifier).addToCart(product);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isInCart ? Colors.red : Colors.black,
-                foregroundColor: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                alignment: Alignment.topLeft,
+                children: [
+                  CachedNetworkImage(
+                      imageUrl: product['image'],
+                      height: 100,
+                      fit: BoxFit.cover),
+                ],
               ),
-              child: Text(isInCart ? 'Remove from Cart' : 'Add to Cart'),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Text(
+                product['title'],
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              // Display updated price with a line-through for the original price
+              Column(
+                children: [
+                  Text(
+                    '₹ ${originalPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration:
+                          TextDecoration.lineThrough, // Line through the text
+                      color: Colors.grey, // Dim color for original price
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '₹ ${discountedPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              if (cartItemCount >
+                  0) // Show count only if the item is in the cart
+                Text('In cart: $cartItemCount'),
+              const SizedBox(height: 8),
+              // Toggle Button
+              ElevatedButton(
+                onPressed: () {
+                  if (isInCart) {
+                    ref.read(cartProvider.notifier).removeFromCart(product);
+                  } else {
+                    ref.read(cartProvider.notifier).addToCart(product);
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isInCart ? Colors.red : Colors.black,
+                  foregroundColor: Colors.white,
+                ),
+                child: Text(isInCart ? 'Remove from Cart' : 'Add to Cart'),
+              ),
+            ],
+          ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Bubble(
+            margin: const BubbleEdges.only(top: 10),
+            nip: BubbleNip.leftBottom,
+            color: Colors.red,
+            child: const Text(
+              '70% Off',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
